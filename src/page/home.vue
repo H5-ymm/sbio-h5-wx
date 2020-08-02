@@ -4,7 +4,7 @@
       v-if="!hasData&&list.length"
       v-model="loading"
       :finished="finished"
-      class="report-list" 
+      class="report-list"
       @load="onLoad">
       <div class="report-item" v-for="(item, index) in list" :key="index">
         <p>样本编号: {{item.sampleNo}}</p>
@@ -65,7 +65,7 @@ export default {
         size: 10
       },
       loading: false,
-      finished: true,
+      finished: false,
       total: 0,
       sampleList: [],
       hasData: false
@@ -79,11 +79,14 @@ export default {
       if (this.total > this.list.length && this.list.length == 10) {
         this.params.size = this.params.size + 10
         this.getSampleData()
+      } else {
+        this.finished = true
       }
     },
     async getSampleData() {
+      this.loading = true
       const { data, code } = await getSampleList(this.params)
-      this.finished = true
+      this.loading = false
       if (data && data.total) {
         this.list = data.sampleList || []
         this.hasData = false

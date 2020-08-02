@@ -32,7 +32,6 @@ async function initApp () {
     }
     const { data } = await getSession(query)
     sessionStorage.setItem('shuoshiSessionId', data.sessionId)
-    console.log(sessionStorage.getItem('shuoshiCode'))
   }
   return new Vue({
     store,

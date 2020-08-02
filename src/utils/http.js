@@ -1,6 +1,6 @@
 import axios from 'axios'
 import QS from 'qs'
-const baseURL = 'https://testapi.s-sbio.com'
+const baseURL = 'https://api.s-sbio.com'
 axios.defaults.baseURL = baseURL
 axios.interceptors.request.use(config => {
   const sessionId = sessionStorage.getItem('shuoshiSessionId')
