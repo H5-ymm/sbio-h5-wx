@@ -140,7 +140,7 @@ export default {
       font-size: 14px;
       color: #000000;
       font-weight: 300;
-      width: 30%;
+      width: 28%;
       margin: 5px 0;
       &:nth-of-type(3n) {
         justify-content: flex-end;

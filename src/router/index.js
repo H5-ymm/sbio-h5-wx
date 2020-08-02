@@ -14,7 +14,7 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: home
+      component: home,
     },
     {
       path: '/reportDetail',

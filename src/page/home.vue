@@ -1,7 +1,7 @@
 <template>
   <div class="report-container">
     <van-list
-      v-if="hasData&&list.length"
+      v-if="!hasData&&list.length"
       v-model="loading"
       :finished="finished"
       class="report-list" 
@@ -17,7 +17,7 @@
         <button class="btn weui-flex center" @click="viewDetail(item)">{{item.status | btnText}}</button>
       </div>
     </van-list>
-    <div v-if="!hasData&&!list.length" class="noData-box">
+    <div v-if="hasData&&!list.length" class="noData-box">
 			<div class="noData-text">完成样本绑定及采集后，才能预约快递哦！</div>
 		  <img src="../assets/img/noData.png" alt="" class="noData-icon">
       <div class="footer-btn">
@@ -30,7 +30,8 @@
 import {statusList } from '@/base/base'
 import { downloadFile } from '@/utils/tool'
 import { List } from 'vant'
-import { downResport, getSampleList, getCancelFlag } from '@/api/sample'
+import { getSampleList, getCancelFlag } from '@/api/sample'
+import { downloadData } from '@/utils/http'
 export default {
   name: 'Home',
   components: {
@@ -67,7 +68,7 @@ export default {
       finished: true,
       total: 0,
       sampleList: [],
-      hasData: true
+      hasData: false
     }
   },
   created() {
@@ -81,23 +82,23 @@ export default {
       }
     },
     async getSampleData() {
-      const { data } = await getSampleList(this.params)
+      const { data, code } = await getSampleList(this.params)
       this.finished = true
-      if (data.total) {
+      if (data && data.total) {
         this.list = data.sampleList || []
-        this.hasData = true
+        this.hasData = false
         this.total = data.total
       } else {
-        this.hasData = false
+        this.hasData = true
+        this.total = 0
       }
     },
     // 判断是否可以取消订单 可以取消跳转订单详情,不可以取消跳转物流路由详情
-    async cancelFlag(item) {
-      const { data } = getCancelFlag({logisticsId: item.logisticsId})
-      if (data.cancelFlag) {
-        wx.miniProgram.navigateTo({url: `/pages/sample/detail?sampleId=${sampleId}`})   
+    cancelFlag(item) {
+      if (!item.logisticsId) {
+        wx.miniProgram.navigateTo({url: `/pages/sample/detail?logisticsId=${item.logisticsId}`})   
       } else {
-        this.routerLogistics(item.logisticsId)
+        wx.miniProgram.navigateTo({url: `/pages/sample/logisticsDetail?logisticsId=${item.logisticsId}`})
       }
     },
     // 跳转物流详情页面
@@ -116,7 +117,6 @@ export default {
           this.cancelFlag(item)
       } else if (item.status == 1) {
         this.routerLogistics(item.logisticsId)
-        // wx.miniProgram.navigateTo({url: `/pages/sample/logisticsDetail?logisticsId=${item.logisticsId}`})    
       } else {
         this.$router.push({
           path: 'reportDetail',
@@ -129,9 +129,13 @@ export default {
     bindSample() {
       wx.miniProgram.navigateTo({url: `/pages/home/usageProcess`})   
     },
-    async download(item) {
-      const data = await downResport({ sampleId: item.sampleId })
-      downloadFile(data)
+    download(item) {
+      let params = {
+         sampleId: item.sampleId,
+         sessionId: sessionStorage.getItem('shuoshiSessionId')
+      }
+      downloadData('sample/api/download', params)
+      // downResport(params)
     }
   }
 }
@@ -149,8 +153,9 @@ export default {
    width: 100%;
    height: 100%;
    .report-list {
+     margin-bottom: 30px;
+     padding-bottom: 20px;
     .report-item {
-      margin-bottom: 20px;
       margin: 20px;
       height: 116px;
       background:#fff;

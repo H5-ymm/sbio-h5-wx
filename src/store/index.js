@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    copyright: 'Power By Gavin'
+    sessionId: ''
   },
   actions,
   mutations,
