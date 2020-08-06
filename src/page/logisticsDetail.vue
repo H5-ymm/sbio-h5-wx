@@ -3,6 +3,7 @@
 		height: 100%;
   }
 </style>
+
 <template>
   <div class="send_view">
     <logisticsTemplate :list="newList" :logisticsOrderId="logisticsOrderId"></logisticsTemplate>
@@ -34,7 +35,7 @@ export default {
     }
   },
 	created() {
-    this.logisticsId = this.$route.query.logisticsId
+    this.logisticsId = this.$route.query.logisticsId || 4
     this.getLogisticsInfo(this.logisticsId)
   },
   methods: {

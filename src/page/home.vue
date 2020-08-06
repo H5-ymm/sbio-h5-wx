@@ -1,5 +1,5 @@
 <template>
-  <div class="report-container">
+  <div class="report-container" v-if="isHas">
     <van-list
       v-if="!hasData&&list.length"
       v-model="loading"
@@ -20,8 +20,8 @@
     <div v-if="hasData&&!list.length" class="noData-box">
 			<div class="noData-text">完成样本绑定及采集后，才能预约快递哦！</div>
 		  <img src="../assets/img/noData.png" alt="" class="noData-icon">
-      <div class="footer-btn">
-        <button class="weui-flex center" @click="bindSample">去绑定</button>
+      <div class="footer-btn"  @click="bindSample">
+        <button class="weui-flex center">去绑定</button>
       </div>
 		</div>
   </div>
@@ -68,10 +68,14 @@ export default {
       finished: false,
       total: 0,
       sampleList: [],
-      hasData: false
+      hasData: false,
+      isHas: false
     }
   },
   created() {
+    if (sessionStorage.getItem('shuoshiSessionId')) {
+      this.isHas = true
+    }
     this.getSampleData()
   },
   methods: {
@@ -95,30 +99,29 @@ export default {
         this.hasData = true
         this.total = 0
       }
+
     },
     // 判断是否可以取消订单 可以取消跳转订单详情,不可以取消跳转物流路由详情
-    cancelFlag(item) {
-      if (!item.logisticsId) {
+    async cancelFlag(item) {
+      const { data } = await getCancelFlag({logisticsId: item.logisticsId})
+      console.log(data)
+      // 判断是否可以取消订单
+      if (data.cancelFlag) {
         wx.miniProgram.navigateTo({url: `/pages/sample/detail?logisticsId=${item.logisticsId}`})   
       } else {
-        wx.miniProgram.navigateTo({url: `/pages/sample/logisticsDetail?logisticsId=${item.logisticsId}`})
+        this.routerLogistics(item.logisticsId)
       }
     },
     // 跳转物流详情页面
     routerLogistics(logisticsId) {
-      this.$router.push({
-        path: 'logisticsDetail',
-        query: {
-          logisticsId: logisticsId
-        }
-      })
+      wx.miniProgram.navigateTo({url: `/pages/sample/logisticsDetail?logisticsId=${logisticsId}`})
     },
     viewDetail(item) {
       if (!item.status) {
         wx.miniProgram.navigateTo({url: `/pages/sample/send?sampleId=${item.sampleId}`})   
       } else if (item.status == 1) {
           this.cancelFlag(item)
-      } else if (item.status == 1) {
+      } else if (item.status == 2) {
         this.routerLogistics(item.logisticsId)
       } else {
         this.$router.push({

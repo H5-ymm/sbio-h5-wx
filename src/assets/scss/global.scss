@@ -34,10 +34,10 @@ ol,ul {list-style: none;}
 
 /* 输入控件字体 */
 input,button,textarea,select,optgroup,option {
-    font-family:inherit;
-    font-size:inherit;
-    font-style:inherit;
-    font-weight:inherit;
+  font-family:inherit;
+  font-size:inherit;
+  font-style:inherit;
+  font-weight:inherit;
 } 
 
 /* 链接样式，颜色可酌情修改 */
@@ -53,11 +53,16 @@ input::-moz-focus-inner { border: 0; padding: 0;}
 
 .clear {clear:both;}
 button {
-    font-size: 16px;
+  font-size: 16px;
 }
 body {
   font-family:PingFangSC-Light,PingFang SC;
   height: 100%;
+  /* 禁止用户自定义设置字体大小 */
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  /* 禁止用户自定义设置字体大小 */
 }
 .page__title {
   font-size: 15px;

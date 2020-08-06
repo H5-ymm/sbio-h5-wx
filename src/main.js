@@ -10,8 +10,9 @@ import moment from 'moment'
 Vue.config.productionTip = false
 Vue.prototype.$moment = moment
 if (getUrlQuery('connect_redirect') && getIsWxClient()) {
-  let baseUrl = location.href.split('?')[0].split('#')[0]
-  location.replace(decodeURIComponent(baseUrl))
+  // let baseUrl = location.href.split('?')[0].split('#')[0]
+  // location.replace(decodeURIComponent(baseUrl))
+  this.$router.go(-1)
 }
 let shuoshiOpenid = sessionStorage.getItem('shuoshiOpenid2')
 if (!shuoshiOpenid && getIsWxClient()) {

@@ -154,7 +154,7 @@ export default {
       }
       .result {
         width: 30px;
-        margin-left: 10px;
+        margin-left: 6px;
         text-align: right;
       }
     }
