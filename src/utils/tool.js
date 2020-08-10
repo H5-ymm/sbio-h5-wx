@@ -46,9 +46,7 @@ export const isMiniProgram = () => {
 
 export function locationUrl () {
   let locationParams = location.href.split('#')[0]
-  console.log(locationParams)
   let urlHome = encodeURIComponent(locationParams)
-  console.log(urlHome + '回调函数')
   return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe60bb0d781a1f74&redirect_uri=${urlHome}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
 }
 export function getUrlQuery (name = '') {
@@ -71,17 +69,4 @@ export function getIsWxClient () {
     flag = false
   }
   return flag
-}
-
-export function downloadFile (content) {
-  console.log('下载')
-  let elink = document.createElement("a");
-  // 设置下载文件名
-  elink.download = '样本报告' + ".xlsx";
-  elink.style.display = "none";
-  let blob = new Blob([content]);
-  elink.href = URL.createObjectURL(blob);
-  document.body.appendChild(elink);
-  elink.click();
-  // document.body.removeChild(elink);
 }

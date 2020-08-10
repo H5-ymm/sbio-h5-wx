@@ -51,11 +51,12 @@ export default {
     }
   }
   .result-left {
-    width: 72%;
+    width: 73%;
     .tip-icon {
       width: 12px;
       height: 10px;
       margin-top: 4px;
+      margin-right: 5px;
     }
   }
   .title {

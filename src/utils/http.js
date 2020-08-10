@@ -5,6 +5,7 @@ const baseURL = 'https://api.s-sbio.com'
 axios.defaults.baseURL = baseURL
 axios.interceptors.request.use(config => {
   const sessionId = sessionStorage.getItem('shuoshiSessionId')
+  console.log(sessionId)
   const { headers } = config
   if (sessionId) {
     headers['sessionId'] = sessionId

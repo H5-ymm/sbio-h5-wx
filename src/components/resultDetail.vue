@@ -35,7 +35,7 @@ export default {
     }
   }
   .tip-content {
-    margin: 10px 41px 10px 30px;
+    margin: 10px 30px;
     line-height: 25px;
     .text {
       color: #000;

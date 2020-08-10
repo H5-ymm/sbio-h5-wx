@@ -1,7 +1,7 @@
 <template>
   <div class="report-container" v-if="isHas">
     <van-list
-      v-if="!hasData&&list.length"
+      v-if="!hasData&&list.lengt"
       v-model="loading"
       :finished="finished"
       class="report-list"
@@ -28,7 +28,6 @@
 </template>
 <script>
 import {statusList } from '@/base/base'
-import { downloadFile } from '@/utils/tool'
 import { List } from 'vant'
 import { getSampleList, getCancelFlag } from '@/api/sample'
 import { downloadData } from '@/utils/http'
@@ -69,10 +68,12 @@ export default {
       total: 0,
       sampleList: [],
       hasData: false,
-      isHas: false
+      isHas: false,
+      content: ''
     }
   },
   created() {
+    console.log(this.$el)
     if (sessionStorage.getItem('shuoshiSessionId')) {
       this.isHas = true
     }
@@ -163,7 +164,7 @@ export default {
      padding-bottom: 20px;
     .report-item {
       margin: 20px;
-      height: 116px;
+      // height: 116px;
       background:#fff;
       font-size: 16px;
       border-radius: 10px;
@@ -180,7 +181,7 @@ export default {
         font-size: 13px;
         position: absolute;
         right: 14px;
-        bottom: 17px;
+        bottom: 14px;
         border: none;
       }
       .link {
