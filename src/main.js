@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
-import store from './store/index'
 import './assets/scss/global.scss'
 import 'amfe-flexible/index.js'
 import { getUrlQuery, getIsWxClient, locationUrl } from './utils/tool'
@@ -21,7 +20,7 @@ if (!shuoshiOpenid && getIsWxClient()) {
   location.href = locationUrl()
 }
 initApp()
-async function initApp () {
+async function initApp() {
   // 获取code
   if (getUrlQuery('code') && getIsWxClient()) {
     sessionStorage.setItem('shuoshiCode', getUrlQuery('code'))
@@ -35,7 +34,6 @@ async function initApp () {
     sessionStorage.setItem('shuoshiSessionId', data.sessionId)
   }
   return new Vue({
-    store,
     router,
     render: h => h(App)
   }).$mount('#app')

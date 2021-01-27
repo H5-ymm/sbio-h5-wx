@@ -1,8 +1,8 @@
 import axios from 'axios'
 import QS from 'qs'
-// const baseURL = 'https://testapi.s-sbio.com'
-const baseURL = 'https://api.s-sbio.com'
-axios.defaults.baseURL = baseURL
+const baseURL = 'https://testapi.s-sbio.com'
+// const baseURL = 'https://api.s-sbio.com'
+// axios.defaults.baseURL = baseURL
 axios.interceptors.request.use(config => {
   const sessionId = sessionStorage.getItem('shuoshiSessionId')
   console.log(sessionId)
@@ -25,6 +25,6 @@ axios.interceptors.response.use(response => {
 })
 export function downloadData(url, params) {
   let data = QS.stringify(params)
-  window.location.href = `${baseURL}/${url}?${data}`
+  window.location.href = `${baseURL}${url}?${data}`
 }
 export default axios

@@ -44,12 +44,12 @@ export const isMiniProgram = () => {
   return envType
 }
 
-export function locationUrl () {
+export function locationUrl() {
   let locationParams = location.href.split('#')[0]
   let urlHome = encodeURIComponent(locationParams)
-  return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe60bb0d781a1f74&redirect_uri=${urlHome}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
+  return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx32d0cfc28c12087a&redirect_uri=${urlHome}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
 }
-export function getUrlQuery (name = '') {
+export function getUrlQuery(name = '') {
   let querys = {}
   location.search.substr(1)
     .split('&')
@@ -58,13 +58,23 @@ export function getUrlQuery (name = '') {
   return name ? querys[name] : querys
 }
 
-export function getIsWxClient () {
+export function getIsWxClient() {
   var ua = navigator.userAgent.toLowerCase()
   var flag = false
   if (ua.match(/MicroMessenger/i)) {
     if (ua.match(/MicroMessenger/i)[0] === 'micromessenger') {
       flag = true
     }
+  } else {
+    flag = false
+  }
+  return flag
+}
+export function validateIdCard(idCard) {
+  let idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
+  let flag = false
+  if (idcardReg.test(idCard)) {
+    flag = true
   } else {
     flag = false
   }

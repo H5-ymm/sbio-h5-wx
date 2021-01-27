@@ -1,29 +1,16 @@
 import http from '@/utils/http'
-export function getSampleDetail (data) {
-  return http.get('/sample/api/get', {
+export function reportCovid(data) {
+  return http.get('/sample/api/reportCovid/get', {
     params: data
   })
 }
-export function getSampleList (data) {
-  return http.get('/sample/api/list', {
-    params: data
-  })
-}
-
-export function downResport (data) {
-  return http.get('/sample/api/download', {
-    params: data
-  })
-}
-
-export function getRoute (data) {
-  return http.get('/sample/api/logistics/getRoute', {
-    params: data
-  })
-}
-
-export function getCancelFlag (data) {
-  return http.get('/sample/api/logistics/getCancelFlag', {
-    params: data
+// 通用下载方法
+export function downResport(params) {
+  return http.get('/sample/api/downReportCovid', { params }, {
+    responseType: 'blob'
+  }).then((data) => {
+    window.open(window.URL.createObjectURL(new Blob([data], { type: 'application/pdf' })))
+  }).catch((r) => {
+    console.error(r)
   })
 }
